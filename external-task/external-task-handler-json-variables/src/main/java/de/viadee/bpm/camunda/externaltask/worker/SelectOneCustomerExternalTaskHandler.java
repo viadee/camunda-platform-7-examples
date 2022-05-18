@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static de.viadee.bpm.camunda.processcontext.ProcessContext.SELECTED_CUSTOMER_KEY;
@@ -28,14 +29,14 @@ public class SelectOneCustomerExternalTaskHandler implements ExternalTaskHandler
         var processContext = new ProcessContext(task.getAllVariables());
 
         log.info("Access data using method");
-        var customers = processContext.getAllCustomers();
+        List<Customer> customers = processContext.getAllCustomers();
 
         log.info("Hello {}!", customers.stream().map(Customer::getName).collect(Collectors.joining(" and ")));
 
-        var selected = customers.get(RandomUtils.nextInt(0, customers.size()));
+        Customer selected = customers.get(RandomUtils.nextInt(0, customers.size()));
         log.info("Selected customer: '{}'", selected.getName());
 
-        var selectedAsJson = selected.toJson();
+        String selectedAsJson = selected.toJson();
         log.info("Selected customer as json: {}", selectedAsJson);
 
         log.info("Store as json-value, key: '{}'", SELECTED_CUSTOMER_KEY);

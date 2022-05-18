@@ -1,5 +1,6 @@
 package de.viadee.bpm.camunda.externaltask.worker;
 
+import de.viadee.bpm.camunda.model.Customer;
 import de.viadee.bpm.camunda.processcontext.ProcessContext;
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
 import org.camunda.bpm.client.task.ExternalTask;
@@ -21,7 +22,7 @@ public class ReadSelectedCustomerExternalTaskHandler implements ExternalTaskHand
         var processContext = new ProcessContext(task.getAllVariables());
 
         log.info("Access data using method");
-        var customer = processContext.getSelectedCustomer();
+        Customer customer = processContext.getSelectedCustomer();
 
         log.info("Hello {}, you're selected and this is you as json: {}", customer.getName(), customer.toJson());
 

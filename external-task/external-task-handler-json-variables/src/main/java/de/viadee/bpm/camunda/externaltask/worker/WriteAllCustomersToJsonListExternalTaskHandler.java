@@ -30,7 +30,7 @@ public class WriteAllCustomersToJsonListExternalTaskHandler implements ExternalT
             new Customer("Eve", null));
 
         log.info("Serialize {} objects of type <{}> as json", customers.size(), customers.get(0).getClass().getSimpleName());
-        var customersAsJsonStringList = JsonDataType.toJsonList(customers);
+        List<String> customersAsJsonStringList = JsonDataType.toJsonList(customers);
 
         log.info("Data serialized: {}", customersAsJsonStringList);
 
