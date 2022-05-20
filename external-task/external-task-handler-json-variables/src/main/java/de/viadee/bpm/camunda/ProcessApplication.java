@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ExternalTaskWorkerProcessApplication {
+public class ProcessApplication {
 
     public static void main(String... args) {
-        SpringApplication.run(ExternalTaskWorkerProcessApplication.class, args);
+        SpringApplication.run(ProcessApplication.class, args);
     }
 }
