@@ -8,7 +8,8 @@ import java.util.Map;
 public class ProcessContext extends AbsProcessContext {
 
     public static final String SELECTED_CUSTOMER_KEY = "selected_customer";
-    public static final String ALL_CUSTOMERS_KEY = "all_customers";
+    public static final String ALL_CUSTOMERS_LIST_KEY = "all_customers_list";
+    public static final String ALL_CUSTOMERS_JSON_KEY = "all_customer_json";
 
 
     public ProcessContext(final Map<String, Object> variables) {
@@ -20,7 +21,7 @@ public class ProcessContext extends AbsProcessContext {
     }
 
     public List<Customer> getAllCustomers() {
-        return super.readList(ALL_CUSTOMERS_KEY, Customer.class);
+        return super.readList(ALL_CUSTOMERS_LIST_KEY, Customer.class);
     }
 
 }

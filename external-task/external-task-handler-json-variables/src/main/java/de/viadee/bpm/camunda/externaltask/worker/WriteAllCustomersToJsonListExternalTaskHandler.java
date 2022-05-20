@@ -14,7 +14,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static de.viadee.bpm.camunda.processcontext.ProcessContext.ALL_CUSTOMERS_KEY;
+import static de.viadee.bpm.camunda.model.JsonDataType.toJsonString;
+import static de.viadee.bpm.camunda.processcontext.ProcessContext.ALL_CUSTOMERS_JSON_KEY;
+import static de.viadee.bpm.camunda.processcontext.ProcessContext.ALL_CUSTOMERS_LIST_KEY;
+import static org.camunda.bpm.client.variable.ClientValues.jsonValue;
 
 @Component
 @ExternalTaskSubscription(topicName = "write-customers-to-json-list")
@@ -34,9 +37,10 @@ public class WriteAllCustomersToJsonListExternalTaskHandler implements ExternalT
 
         log.info("Data serialized: {}", customersAsJsonStringList);
 
-        log.info("Store as 'native' collection: '{}', key: '{}'", customersAsJsonStringList.getClass(), ALL_CUSTOMERS_KEY);
+        log.info("Store as 'native' collection: '{}', key: '{}'", customersAsJsonStringList.getClass(), ALL_CUSTOMERS_LIST_KEY);
         var variables = ClientValues.createVariables()
-                                    .putValue(ALL_CUSTOMERS_KEY, customersAsJsonStringList);
+                                    .putValue(ALL_CUSTOMERS_LIST_KEY, customersAsJsonStringList)
+                                    .putValue(ALL_CUSTOMERS_JSON_KEY, jsonValue(toJsonString(customers)));
 
         log.info("Complete task\n");
         taskService.complete(task, variables);
