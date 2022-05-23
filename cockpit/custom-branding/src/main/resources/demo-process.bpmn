@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0b22zjv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:message id="Message_1ttrg44" name="wait-here" />
+  <bpmn:collaboration id="Collaboration_0ddvs46">
+    <bpmn:participant id="custom-branding-demo-participant" name="Custom Branding Demo" processRef="custom-branding-demo" />
+  </bpmn:collaboration>
+  <bpmn:process id="custom-branding-demo" name="Custom Branding Demo" isExecutable="true">
+    <bpmn:userTask id="Activity_1yvxkwk" name="Open Cockpit">
+      <bpmn:incoming>Flow_1pisnwh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0iv1xel</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_1n0f13z" name="Cockpit&#10;branded">
+      <bpmn:incoming>Flow_0iv1xel</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="Event_0z9s9o9" name="Once after 5s">
+      <bpmn:outgoing>Flow_1pisnwh</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0yaz8kk">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT5S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1pisnwh" sourceRef="Event_0z9s9o9" targetRef="Activity_1yvxkwk" />
+    <bpmn:sequenceFlow id="Flow_0iv1xel" sourceRef="Activity_1yvxkwk" targetRef="Event_1n0f13z" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0ddvs46">
+      <bpmndi:BPMNShape id="Participant_0tkwslo_di" bpmnElement="custom-branding-demo-participant" isHorizontal="true">
+        <dc:Bounds x="160" y="100" width="450" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0iv1xel_di" bpmnElement="Flow_0iv1xel">
+        <di:waypoint x="440" y="220" />
+        <di:waypoint x="492" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1pisnwh_di" bpmnElement="Flow_1pisnwh">
+        <di:waypoint x="288" y="220" />
+        <di:waypoint x="340" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_1i4aozr_di" bpmnElement="Activity_1yvxkwk">
+        <dc:Bounds x="340" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1n0f13z_di" bpmnElement="Event_1n0f13z">
+        <dc:Bounds x="492" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="490" y="245" width="41" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0lnzw4l_di" bpmnElement="Event_0z9s9o9">
+        <dc:Bounds x="252" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="237" y="245" width="67" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
