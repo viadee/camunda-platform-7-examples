@@ -1,0 +1,38 @@
+:root {
+    --custom-header-color: ${custom-top-color};
+    --custom-button-color: ${custom-button-color};
+}
+
+/* header & brand */
+[cam-widget-header] {
+    border-top-color: var(--custom-header-color);
+}
+
+.app-banner svg {
+    display: none;
+}
+
+.app-banner {
+    background: url(custom-logo.png) no-repeat;
+    background-size: auto 45px;
+}
+
+.brand-name {
+    padding-left: 75px;
+}
+
+/* buttons */
+.btn-primary {
+    background-color: var(--custom-button-color);
+    border-color: var(--custom-button-color);
+}
+
+.btn-primary:enabled,
+.btn-primary:active,
+.btn-primary:active:focus,
+.btn-primary:hover,
+.btn-primary:hover:disabled,
+.btn-primary:focus {
+    background-color: var(--custom-button-color);
+    border-color: var(--custom-button-color);
+}

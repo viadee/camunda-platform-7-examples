@@ -1,0 +1,19 @@
+camunda.bpm:
+  client:
+    base-url: http://localhost:8080/engine-rest
+  admin-user:
+    id: demo
+    password: demo
+  database:
+    type: h2
+  default-serialization-format: application/json
+  filter:
+    create: All tasks
+  generic-properties:
+    properties:
+      initializeTelemetry: true
+      telemetryReporterActivate: true
+de.viadee.bpm.camunda-branding:
+  enabled: true
+  button-color: '#7EBCA9'
+  top-color: '#681885'
