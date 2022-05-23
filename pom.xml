@@ -10,6 +10,7 @@
     <version>1.0.0</version>
 
     <modules>
+        <module>cockpit/custom-branding</module>
         <module>external-task/external-task-handler-json-variables</module>
     </modules>
 
