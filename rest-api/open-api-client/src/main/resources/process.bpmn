@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_13r7ojr" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:collaboration id="Collaboration_0ayopck">
+    <bpmn:participant id="Participant_1etgtc5" name="Message Start Process" processRef="message-start-process" />
+  </bpmn:collaboration>
+  <bpmn:process id="message-start-process" name="Message Start Process" isExecutable="true">
+    <bpmn:endEvent id="ProcessEndEndEvent" name="Process end">
+      <bpmn:incoming>Flow_0p5d7t2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="WaitHereTask" name="Wait here">
+      <bpmn:incoming>Flow_02lp8rr</bpmn:incoming>
+      <bpmn:outgoing>Flow_0p5d7t2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="MessageStartStartEvent" name="Message start">
+      <bpmn:outgoing>Flow_02lp8rr</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1f4aem3" messageRef="Message_1m9ep96" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_02lp8rr" sourceRef="MessageStartStartEvent" targetRef="WaitHereTask" />
+    <bpmn:sequenceFlow id="Flow_0p5d7t2" sourceRef="WaitHereTask" targetRef="ProcessEndEndEvent" />
+  </bpmn:process>
+  <bpmn:message id="Message_1m9ep96" name="start-message" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0ayopck">
+      <bpmndi:BPMNShape id="Participant_1etgtc5_di" bpmnElement="Participant_1etgtc5" isHorizontal="true">
+        <dc:Bounds x="160" y="70" width="470" height="210" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_02lp8rr_di" bpmnElement="Flow_02lp8rr">
+        <di:waypoint x="285" y="177" />
+        <di:waypoint x="340" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0p5d7t2_di" bpmnElement="Flow_0p5d7t2">
+        <di:waypoint x="440" y="177" />
+        <di:waypoint x="502" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1gr9mkk_di" bpmnElement="ProcessEndEndEvent">
+        <dc:Bounds x="502" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="489" y="202" width="62" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_13bidwv_di" bpmnElement="WaitHereTask">
+        <dc:Bounds x="340" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0dp3ms3_di" bpmnElement="MessageStartStartEvent">
+        <dc:Bounds x="249" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="234" y="202" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
