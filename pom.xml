@@ -12,6 +12,7 @@
     <modules>
         <module>cockpit/custom-branding</module>
         <module>external-task/external-task-handler-json-variables</module>
+        <module>rest-api/open-api-client</module>
     </modules>
 
 </project>
