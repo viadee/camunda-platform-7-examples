@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0b22zjv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.2.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:message id="Message_1ttrg44" name="wait-here" />
+  <bpmn:collaboration id="Collaboration_0m6b9ef">
+    <bpmn:participant id="external-task-handler-multi-instance-participant" name="External-Task-Handler-Multi-Instance" processRef="external-task-handler-multi-instance-process" />
+  </bpmn:collaboration>
+  <bpmn:process id="external-task-handler-multi-instance-process" name="JsonValue-String-Multi-Instance" isExecutable="true">
+    <bpmn:serviceTask id="Activity_08l4r6r" name="Write list of JsonValue-objects" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:type="external" camunda:topic="write-json-value-list">
+      <bpmn:incoming>Flow_1nbmt8u</bpmn:incoming>
+      <bpmn:outgoing>Flow_0srqwtj</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="StartEvent_1" name="Once&#10;after 5s">
+      <bpmn:outgoing>Flow_1nbmt8u</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0peamb0">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT5S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_01z1rbg">
+      <bpmn:incoming>Flow_0ay4ak8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:subProcess id="Activity_045m7ku" name="Iterate JsonValue-objects">
+      <bpmn:incoming>Flow_0srqwtj</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ay4ak8</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics camunda:asyncBefore="true" camunda:collection="persons" camunda:elementVariable="person" />
+      <bpmn:startEvent id="Event_03dfo9q">
+        <bpmn:outgoing>Flow_1kpqwg9</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_1kpqwg9" sourceRef="Event_03dfo9q" targetRef="Activity_1lv8lq4" />
+      <bpmn:endEvent id="Event_0x6fs47">
+        <bpmn:incoming>Flow_04kz9lj</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_04kz9lj" sourceRef="Activity_1lv8lq4" targetRef="Event_0x6fs47" />
+      <bpmn:userTask id="Activity_1lv8lq4" name="Wait here">
+        <bpmn:incoming>Flow_1kpqwg9</bpmn:incoming>
+        <bpmn:outgoing>Flow_04kz9lj</bpmn:outgoing>
+      </bpmn:userTask>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="Flow_1nbmt8u" sourceRef="StartEvent_1" targetRef="Activity_08l4r6r" />
+    <bpmn:sequenceFlow id="Flow_0ay4ak8" sourceRef="Activity_045m7ku" targetRef="Event_01z1rbg" />
+    <bpmn:sequenceFlow id="Flow_0srqwtj" sourceRef="Activity_08l4r6r" targetRef="Activity_045m7ku" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0m6b9ef">
+      <bpmndi:BPMNShape id="Participant_1oqht21_di" bpmnElement="external-task-handler-multi-instance-participant" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="820" height="260" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0srqwtj_di" bpmnElement="Flow_0srqwtj">
+        <di:waypoint x="430" y="200" />
+        <di:waypoint x="480" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ay4ak8_di" bpmnElement="Flow_0ay4ak8">
+        <di:waypoint x="830" y="200" />
+        <di:waypoint x="892" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nbmt8u_di" bpmnElement="Flow_1nbmt8u">
+        <di:waypoint x="278" y="200" />
+        <di:waypoint x="330" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_07ue4ke_di" bpmnElement="Activity_08l4r6r">
+        <dc:Bounds x="330" y="160" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_07zmirj_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="242" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="241" y="225" width="38" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_01z1rbg_di" bpmnElement="Event_01z1rbg">
+        <dc:Bounds x="892" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_045m7ku_di" bpmnElement="Activity_045m7ku" isExpanded="true">
+        <dc:Bounds x="480" y="120" width="350" height="160" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_04kz9lj_di" bpmnElement="Flow_04kz9lj">
+        <di:waypoint x="710" y="200" />
+        <di:waypoint x="772" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kpqwg9_di" bpmnElement="Flow_1kpqwg9">
+        <di:waypoint x="556" y="200" />
+        <di:waypoint x="610" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_03dfo9q_di" bpmnElement="Event_03dfo9q">
+        <dc:Bounds x="520" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0x6fs47_di" bpmnElement="Event_0x6fs47">
+        <dc:Bounds x="772" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ji9mf4_di" bpmnElement="Activity_1lv8lq4">
+        <dc:Bounds x="610" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

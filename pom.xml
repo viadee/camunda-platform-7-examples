@@ -14,6 +14,7 @@
         <module>engine/custom-history-levels</module>
         <module>engine/incident-notification-plugin</module>
         <module>external-task/delegate-handler-job-worker-comparison</module>
+        <module>external-task/external-task-handler-json-multi-instance</module>
         <module>external-task/external-task-handler-json-variables</module>
         <module>rest-api/open-api-client</module>
     </modules>
