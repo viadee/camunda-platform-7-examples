@@ -22,10 +22,10 @@
 
         <!-- versions -->
         <version.java>11</version.java>
-        <version.spring-boot>2.6.7</version.spring-boot>
-        <version.camunda>7.17.0</version.camunda>
-        <version.maven-compiler-plugin>3.8.0</version.maven-compiler-plugin>
-        <version.spring-banner-plugin>1.0</version.spring-banner-plugin>
+        <version.spring-boot>2.7.5</version.spring-boot>
+        <version.camunda>7.18.0</version.camunda>
+        <version.maven-compiler-plugin>3.10.1</version.maven-compiler-plugin>
+        <version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
         <version.openapi-generator>5.1.0</version.openapi-generator>
         <version.swagger-annotations>1.6.6</version.swagger-annotations>
         <version.jackson-databind-nullable>0.2.2</version.jackson-databind-nullable>
