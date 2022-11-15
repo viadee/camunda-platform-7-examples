@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0bac5cq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.5.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:collaboration id="Collaboration_1m3xyip">
+    <bpmn:participant id="SchadenmeldungVerarbeitenParticipant" name="Schadenmeldung verarbeiten" processRef="external-tasks-process" />
+  </bpmn:collaboration>
+  <bpmn:process id="external-tasks-process" name="Schadenmeldung (External-Tasks)" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_01va0vx" sourceRef="SchadenAnlegenTask" targetRef="Event_1vb726y" />
+    <bpmn:sequenceFlow id="Flow_1qozjhk" sourceRef="SchadenmeldungEingetroffenStartEvent" targetRef="VertragsdatenLesenTask" />
+    <bpmn:sequenceFlow id="Flow_1verxkb" sourceRef="ArchivierungSubProcess" targetRef="SchadenAnlegenTask" />
+    <bpmn:sequenceFlow id="Flow_06lujvv" sourceRef="VertragsdatenLesenTask" targetRef="ArchivierungSubProcess" />
+    <bpmn:startEvent id="SchadenmeldungEingetroffenStartEvent" name="Schadenmeldung eingetroffen" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_1qozjhk</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1dwfjwr" messageRef="Message_1f4br44" />
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="VertragsdatenLesenTask" name="Vertragsdaten lesen" camunda:asyncAfter="true" camunda:type="external" camunda:topic="vertrag-lesen">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1qozjhk</bpmn:incoming>
+      <bpmn:outgoing>Flow_06lujvv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:subProcess id="ArchivierungSubProcess" name="Archivierung" camunda:asyncBefore="true">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_06lujvv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1verxkb</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics isSequential="true" camunda:asyncBefore="true" camunda:collection="extIn_dokumente" camunda:elementVariable="tec_iteration_element" />
+      <bpmn:startEvent id="Event_06xcevo">
+        <bpmn:outgoing>Flow_1ydb0yp</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_1ydb0yp" sourceRef="Event_06xcevo" targetRef="DokumentArchivierenTask" />
+      <bpmn:endEvent id="Event_0c5ut2b">
+        <bpmn:incoming>Flow_0wmf2oy</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_0wmf2oy" sourceRef="DokumentArchivierenTask" targetRef="Event_0c5ut2b" />
+      <bpmn:serviceTask id="DokumentArchivierenTask" name="Dokument archivieren" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:type="external" camunda:topic="dokument-archivieren">
+        <bpmn:incoming>Flow_1ydb0yp</bpmn:incoming>
+        <bpmn:outgoing>Flow_0wmf2oy</bpmn:outgoing>
+      </bpmn:serviceTask>
+    </bpmn:subProcess>
+    <bpmn:serviceTask id="SchadenAnlegenTask" name="Schaden anlegen" camunda:asyncBefore="true" camunda:asyncAfter="true" camunda:type="external" camunda:topic="schaden-anlegen">
+      <bpmn:incoming>Flow_1verxkb</bpmn:incoming>
+      <bpmn:outgoing>Flow_01va0vx</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="SchadenAngelegtEndEvent" name="Schaden angelegt" camunda:asyncBefore="true">
+      <bpmn:incoming>Flow_0jgz8oo</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0jgz8oo" sourceRef="Event_1vb726y" targetRef="SchadenAngelegtEndEvent" />
+    <bpmn:intermediateCatchEvent id="Event_1vb726y" name="Hier warten">
+      <bpmn:incoming>Flow_01va0vx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jgz8oo</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_18zqhmw" messageRef="Message_02133n6" />
+    </bpmn:intermediateCatchEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1f4br44" name="schadenmeldung-external-tasks" />
+  <bpmn:signal id="Signal_3d217f6" name="schaden-angelegt-signal" />
+  <bpmn:message id="Message_02133n6" name="hier-warten-external-tasks" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1m3xyip">
+      <bpmndi:BPMNShape id="Participant_1onj0r7_di" bpmnElement="SchadenmeldungVerarbeitenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="52" width="1080" height="228" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0qi6v8f_di" bpmnElement="SchadenmeldungEingetroffenStartEvent">
+        <dc:Bounds x="252" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="227" y="189" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rh6si7_di" bpmnElement="VertragsdatenLesenTask">
+        <dc:Bounds x="350" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1a5yu01_di" bpmnElement="ArchivierungSubProcess" isExpanded="true">
+        <dc:Bounds x="510" y="90" width="300" height="153" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06xcevo_di" bpmnElement="Event_06xcevo">
+        <dc:Bounds x="542" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0c5ut2b_di" bpmnElement="Event_0c5ut2b">
+        <dc:Bounds x="752" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_08jca44_di" bpmnElement="DokumentArchivierenTask">
+        <dc:Bounds x="615" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1ydb0yp_di" bpmnElement="Flow_1ydb0yp">
+        <di:waypoint x="578" y="160" />
+        <di:waypoint x="615" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0wmf2oy_di" bpmnElement="Flow_0wmf2oy">
+        <di:waypoint x="715" y="160" />
+        <di:waypoint x="752" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_02j1a41_di" bpmnElement="SchadenAnlegenTask">
+        <dc:Bounds x="870" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0z0ghp9_di" bpmnElement="SchadenAngelegtEndEvent">
+        <dc:Bounds x="1142" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1115" y="185" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0twkvpf_di" bpmnElement="Event_1vb726y">
+        <dc:Bounds x="1032" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1022" y="185" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_01va0vx_di" bpmnElement="Flow_01va0vx">
+        <di:waypoint x="970" y="160" />
+        <di:waypoint x="1032" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1qozjhk_di" bpmnElement="Flow_1qozjhk">
+        <di:waypoint x="288" y="160" />
+        <di:waypoint x="350" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1verxkb_di" bpmnElement="Flow_1verxkb">
+        <di:waypoint x="810" y="160" />
+        <di:waypoint x="870" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06lujvv_di" bpmnElement="Flow_06lujvv">
+        <di:waypoint x="450" y="160" />
+        <di:waypoint x="510" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jgz8oo_di" bpmnElement="Flow_0jgz8oo">
+        <di:waypoint x="1068" y="160" />
+        <di:waypoint x="1142" y="160" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
