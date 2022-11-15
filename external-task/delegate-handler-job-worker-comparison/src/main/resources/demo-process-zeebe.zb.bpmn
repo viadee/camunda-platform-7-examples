@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0ir7s6b" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.5.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.1.0">
+  <bpmn:collaboration id="Collaboration_06l0hbk">
+    <bpmn:participant id="SchadenmeldungVerarbeitenParticipant" name="Schadenmeldung verarbeiten" processRef="schadenmeldung-zeebe-job-worker-process" />
+  </bpmn:collaboration>
+  <bpmn:process id="schadenmeldung-zeebe-job-worker-process" name="Schadenmeldung (Zeebe)" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1iqituo" sourceRef="SchadenmeldungEingetroffenStartEvent" targetRef="VertragsdatenLesenTask" />
+    <bpmn:sequenceFlow id="Flow_15r0ci4" sourceRef="VertragsdatenLesenTask" targetRef="ArchivierungSubProcess" />
+    <bpmn:sequenceFlow id="Flow_1p8ofsu" sourceRef="ArchivierungSubProcess" targetRef="SchadenAnlegenTask" />
+    <bpmn:sequenceFlow id="Flow_0qxu2ly" sourceRef="SchadenAnlegenTask" targetRef="HierWartenEvent" />
+    <bpmn:sequenceFlow id="Flow_1nf0buz" sourceRef="HierWartenEvent" targetRef="SchadenAngelegtEndEvent" />
+    <bpmn:serviceTask id="VertragsdatenLesenTask" name="Vertragsdaten lesen">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="vertragLesen" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1iqituo</bpmn:incoming>
+      <bpmn:outgoing>Flow_15r0ci4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:subProcess id="ArchivierungSubProcess" name="Archivierung">
+      <bpmn:incoming>Flow_15r0ci4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1p8ofsu</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics>
+        <bpmn:extensionElements>
+          <zeebe:loopCharacteristics inputCollection="=extIn_dokumente" inputElement="tec_iteration_element" outputCollection="int_archived" outputElement="=tec_iteration_element" />
+        </bpmn:extensionElements>
+      </bpmn:multiInstanceLoopCharacteristics>
+      <bpmn:startEvent id="Event_0qfvrzp">
+        <bpmn:outgoing>Flow_1f60t26</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_1f60t26" sourceRef="Event_0qfvrzp" targetRef="DokumentArchivierenTask" />
+      <bpmn:endEvent id="Event_1ufsmj6">
+        <bpmn:incoming>Flow_14udqd0</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_14udqd0" sourceRef="DokumentArchivierenTask" targetRef="Event_1ufsmj6" />
+      <bpmn:serviceTask id="DokumentArchivierenTask" name="Dokument archivieren">
+        <bpmn:extensionElements>
+          <zeebe:taskDefinition type="dokument-archivieren" />
+        </bpmn:extensionElements>
+        <bpmn:incoming>Flow_1f60t26</bpmn:incoming>
+        <bpmn:outgoing>Flow_14udqd0</bpmn:outgoing>
+      </bpmn:serviceTask>
+    </bpmn:subProcess>
+    <bpmn:serviceTask id="SchadenAnlegenTask" name="Schaden anlegen">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="schaden-anlegen" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1p8ofsu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0qxu2ly</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="HierWartenEvent" name="Hier warten">
+      <bpmn:incoming>Flow_0qxu2ly</bpmn:incoming>
+      <bpmn:outgoing>Flow_1nf0buz</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0d0qv0f" messageRef="Message_3t4gc5t" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="SchadenAngelegtEndEvent" name="Schaden angelegt">
+      <bpmn:incoming>Flow_1nf0buz</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:startEvent id="SchadenmeldungEingetroffenStartEvent" name="Schadenmeldung eingetroffen">
+      <bpmn:outgoing>Flow_1iqituo</bpmn:outgoing>
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_3067emk" name="schadenmeldung-zeebe" />
+  <bpmn:message id="Message_3t4gc5t" name="hier-warten-zeebe">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=extOut_schadenId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_06l0hbk">
+      <bpmndi:BPMNShape id="Participant_0tisjtu_di" bpmnElement="SchadenmeldungVerarbeitenParticipant" isHorizontal="true">
+        <dc:Bounds x="160" y="52" width="1148" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ib56pa_di" bpmnElement="VertragsdatenLesenTask">
+        <dc:Bounds x="370" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0t5sorn_di" bpmnElement="SchadenmeldungEingetroffenStartEvent">
+        <dc:Bounds x="259" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="234" y="202" width="86" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0dmjuf1_di" bpmnElement="ArchivierungSubProcess" isExpanded="true">
+        <dc:Bounds x="540" y="100" width="350" height="150" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0qfvrzp_di" bpmnElement="Event_0qfvrzp">
+        <dc:Bounds x="580" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ufsmj6_di" bpmnElement="Event_1ufsmj6">
+        <dc:Bounds x="832" y="152" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_12s2cc3_di" bpmnElement="DokumentArchivierenTask">
+        <dc:Bounds x="670" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1f60t26_di" bpmnElement="Flow_1f60t26">
+        <di:waypoint x="616" y="170" />
+        <di:waypoint x="670" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14udqd0_di" bpmnElement="Flow_14udqd0">
+        <di:waypoint x="770" y="170" />
+        <di:waypoint x="832" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_09558m0_di" bpmnElement="SchadenAnlegenTask">
+        <dc:Bounds x="960" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_04uyx4i_di" bpmnElement="HierWartenEvent">
+        <dc:Bounds x="1122" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1112" y="195" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0uc0o6o_di" bpmnElement="SchadenAngelegtEndEvent">
+        <dc:Bounds x="1232" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1205" y="195" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1iqituo_di" bpmnElement="Flow_1iqituo">
+        <di:waypoint x="295" y="177" />
+        <di:waypoint x="370" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_15r0ci4_di" bpmnElement="Flow_15r0ci4">
+        <di:waypoint x="470" y="177" />
+        <di:waypoint x="540" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1p8ofsu_di" bpmnElement="Flow_1p8ofsu">
+        <di:waypoint x="890" y="170" />
+        <di:waypoint x="960" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0qxu2ly_di" bpmnElement="Flow_0qxu2ly">
+        <di:waypoint x="1060" y="170" />
+        <di:waypoint x="1122" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nf0buz_di" bpmnElement="Flow_1nf0buz">
+        <di:waypoint x="1158" y="170" />
+        <di:waypoint x="1232" y="170" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
