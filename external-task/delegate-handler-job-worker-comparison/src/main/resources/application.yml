@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: delegate-handler-job-worker
+camunda.bpm:
+  client:
+    base-url: http://localhost:8080/engine-rest
+    max-tasks: 1
+  admin-user:
+    id: demo
+    password: demo
+  login:
+    enabled: true
+    user-id: demo
+    create-if-absent: true
+    random-password: true
+  database:
+    type: h2
+  default-serialization-format: application/json
+  filter:
+    create: All tasks
+  generic-properties:
+    properties:
+      initializeTelemetry: false
+      telemetryReporterActivate: false
+  deployment-resource-pattern:
+    - classpath*:**/**/*.cam.bpmn
+    - classpath*:**/**/*.cam.dmn
+zeebe:
+  client:
+    cloud:
+      cluster-id: ${ZB_CLUSTER}
+      client-id: ${ZB_CLIENT}
+      client-secret: ${ZB_SECRET}
+      region: ${ZB_REGION}
