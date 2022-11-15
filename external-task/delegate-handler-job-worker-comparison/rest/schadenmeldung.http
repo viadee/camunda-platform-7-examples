@@ -1,0 +1,35 @@
+###
+POST http://localhost:8080/schadenmeldung
+Content-Type: application/json
+
+{
+  "vsnr": "00004311",
+  "eingangskanal": "scan",
+  "schaden": {
+    "value": "3000.00",
+    "typ": "haftpflicht",
+    "schadenDatum": "2022-11-11",
+    "beschreibung": "Da ist etwas kaputt gegangen"
+  },
+  "dokumente": [
+    {
+      "id": "dc_21a0ccd4",
+      "type": "Doc/Anschreiben"
+    },
+    {
+      "id": "dc_c1f56416",
+      "content": "Beglaubigtes Gutachten",
+      "type": "Doc/Gutachten"
+    },
+    {
+      "id": "dc_1d8daf6a",
+      "content": "Foto des Schaden 1/2",
+      "type": "Doc/Foto"
+    },
+    {
+      "id": "dc_4009a046",
+      "content": "Foto des Schaden 2/2",
+      "type": "Doc/Foto"
+    }
+  ]
+}
