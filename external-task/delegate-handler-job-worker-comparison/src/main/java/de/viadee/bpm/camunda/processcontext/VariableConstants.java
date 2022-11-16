@@ -6,10 +6,11 @@ public abstract class VariableConstants {
     // nop
   }
 
-  public static final String EXT_IN_SCHADENMELDUNG = "extIn_schadenmeldung";
-  public static final String EXT_IN_VERTRAG = "extIn_vertrag";
-  public static final String EXT_IN_DOKUMENTE = "extIn_dokumente";
-  public static final String EXT_OUT_SCHADEN_ID = "extOut_schadenId";
+  public static final String EXT_IN_DAMAGE_REPORT = "extIn_damage_report";
+  public static final String EXT_IN_CONTRACT = "extIn_contract";
+  public static final String EXT_IN_DOCUMENTS = "extIn_documents";
+  public static final String EXT_OUT_CLAIM_ID = "extOut_claimId";
   public static final String INT_ARCHIVED = "int_archived";
   public static final String TEC_ITERATION_ELEMENT = "tec_iteration_element";
+
 }
