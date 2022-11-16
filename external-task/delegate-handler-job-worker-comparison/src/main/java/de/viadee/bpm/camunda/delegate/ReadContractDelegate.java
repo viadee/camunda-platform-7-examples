@@ -1,7 +1,7 @@
 package de.viadee.bpm.camunda.delegate;
 
 import de.viadee.bpm.camunda.processcontext.ProcessContext;
-import de.viadee.bpm.camunda.service.VertragService;
+import de.viadee.bpm.camunda.service.ContractService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -11,21 +11,21 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class VertragLesenDelegate implements JavaDelegate {
+public class ReadContractDelegate implements JavaDelegate {
 
-  private final VertragService vertragService;
+  private final ContractService contractService;
 
   public void execute(final DelegateExecution execution) {
     // read data
     var context = new ProcessContext(execution);
-    var schadenmeldung = context.getSchadenmeldung();
-    var vsnr = schadenmeldung.getVsnr();
+    var damageReport = context.getDamageReport();
+    var vsnr = damageReport.getVsnr();
 
     // call service
-    var vertrag = vertragService.getVertragById(vsnr);
-    log.info("Vertrag erfolgreich gelesen: {}", vertrag);
+    var contract = contractService.getContractById(vsnr);
+    log.info("Contract found: {}", contract);
 
     // write data (auto-complete)
-    context.setVertrag(vertrag);
+    context.setContract(contract);
   }
 }
