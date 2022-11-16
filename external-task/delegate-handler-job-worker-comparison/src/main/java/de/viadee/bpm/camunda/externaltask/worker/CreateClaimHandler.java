@@ -1,7 +1,7 @@
 package de.viadee.bpm.camunda.externaltask.worker;
 
 import de.viadee.bpm.camunda.processcontext.ProcessContext;
-import de.viadee.bpm.camunda.service.SchadenService;
+import de.viadee.bpm.camunda.service.ClaimService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
@@ -13,22 +13,22 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@ExternalTaskSubscription(topicName = "schaden-anlegen")
-public class SchadenAnlegenHandler implements ExternalTaskHandler {
+@ExternalTaskSubscription(topicName = "create-claim")
+public class CreateClaimHandler implements ExternalTaskHandler {
 
-  private final SchadenService schadenService;
+  private final ClaimService claimService;
 
   @Override
   public void execute(final ExternalTask task,
                       final ExternalTaskService taskService) {
 
     var context = new ProcessContext(task);
-    var schadenmeldung = context.getSchadenmeldung();
-    var vertrag = context.getVertrag();
+    var damageReport = context.getDamageReport();
+    var contract = context.getContract();
 
-    var schadenId = schadenService.schadenAnlegen(schadenmeldung, vertrag);
-    log.info("Schaden erfolgreich angelegt, Schaden-Id: {}", schadenId);
+    var claimId = claimService.createClaim(damageReport, contract);
+    log.info("Claim created, claimId: {}", claimId);
 
-    taskService.complete(task, context.setSchadenId(schadenId));
+    taskService.complete(task, context.setClaimId(claimId));
   }
 }
