@@ -1,0 +1,35 @@
+###
+POST http://localhost:8080/damage-report
+Content-Type: application/json
+
+{
+  "vsnr": "00004311",
+  "inputChannel": "scan",
+  "damageData": {
+    "value": "3000.00",
+    "type": "liability",
+    "damageDate": "2022-11-11",
+    "description": "Something gone wrong"
+  },
+  "documents": [
+    {
+      "id": "dc_21a0ccd4",
+      "type": "Doc/Letter"
+    },
+    {
+      "id": "dc_c1f56416",
+      "content": "Certified Assessment",
+      "type": "Doc/Assessment"
+    },
+    {
+      "id": "dc_1d8daf6a",
+      "content": "Photo of damage 1/2",
+      "type": "Doc/Photo"
+    },
+    {
+      "id": "dc_4009a046",
+      "content": "Photo of damage 2/2",
+      "type": "Doc/Photo"
+    }
+  ]
+}

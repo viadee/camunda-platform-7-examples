@@ -1,7 +1,7 @@
 package de.viadee.bpm.camunda.zeebe;
 
 import de.viadee.bpm.camunda.processcontext.ProcessContext;
-import de.viadee.bpm.camunda.service.ArchivService;
+import de.viadee.bpm.camunda.service.ArchiveService;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +15,18 @@ import static de.viadee.bpm.camunda.processcontext.VariableConstants.TEC_ITERATI
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DokumentArchivierenJob {
+public class ArchiveDocumentJob {
 
-  private final ArchivService archivService;
+  private final ArchiveService archiveService;
 
-  @JobWorker(type = "dokument-archivieren")
-  public Map<String, Object> dokumentArchivieren(final ActivatedJob job) {
+  @JobWorker(type = "archive-document")
+  public Map<String, Object> archiveDocument(final ActivatedJob job) {
 
     var context = new ProcessContext(job);
-    var archived = archivService.archive(context.getDokument());
+    var archived = archiveService.archive(context.getDocument());
     log.info("{}", archived);
 
-    return Map.of(TEC_ITERATION_ELEMENT, archived);
+    return Map.of(TEC_ITERATION_ELEMENT, archived); // overwrite element locally
   }
 
 

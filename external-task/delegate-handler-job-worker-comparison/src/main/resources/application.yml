@@ -23,8 +23,7 @@ camunda.bpm:
       initializeTelemetry: false
       telemetryReporterActivate: false
   deployment-resource-pattern:
-    - classpath*:**/**/*.cam.bpmn
-    - classpath*:**/**/*.cam.dmn
+    - classpath*:**/*.cam.bpmn
 zeebe:
   client:
     cloud:

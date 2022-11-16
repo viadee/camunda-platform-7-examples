@@ -7,11 +7,11 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-public class Vertrag implements JsonDataType {
+public class Contract implements JsonDataType {
 
   private String id;
   private String policyHolder;
   private String tarif;
-  private LocalDate beginn;
+  private LocalDate begin;
 
 }

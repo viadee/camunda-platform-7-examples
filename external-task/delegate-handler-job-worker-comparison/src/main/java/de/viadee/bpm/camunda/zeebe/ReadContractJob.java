@@ -1,7 +1,7 @@
 package de.viadee.bpm.camunda.zeebe;
 
 import de.viadee.bpm.camunda.processcontext.ProcessContext;
-import de.viadee.bpm.camunda.service.VertragService;
+import de.viadee.bpm.camunda.service.ContractService;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
 import lombok.RequiredArgsConstructor;
@@ -13,23 +13,23 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class VertragLesenJob {
+public class ReadContractJob {
 
-  private final VertragService vertragService;
+  private final ContractService contractService;
 
-  @JobWorker
-  public Map<String, Object> vertragLesen(final ActivatedJob job) {
+  @JobWorker // type: "set to empty string which leads to method name being used"
+  public Map<String, Object> readContract(final ActivatedJob job) {
 
     // read data
     var context = new ProcessContext(job);
-    var schadenmeldung = context.getSchadenmeldung();
-    var vsnr = schadenmeldung.getVsnr();
+    var damageReport = context.getDamageReport();
+    var vsnr = damageReport.getVsnr();
 
     // call service
-    var vertrag = vertragService.getVertragById(vsnr);
-    log.info("Vertrag erfolgreich gelesen: {}", vertrag);
+    var contract = contractService.getContractById(vsnr);
+    log.info("Contract found: {}", contract);
 
     // write data & auto-complete (default)
-    return context.setVertrag(vertrag);
+    return context.setContract(contract);
   }
 }

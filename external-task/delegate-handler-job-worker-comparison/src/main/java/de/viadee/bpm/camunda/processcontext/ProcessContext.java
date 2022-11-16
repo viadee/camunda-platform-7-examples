@@ -2,10 +2,10 @@ package de.viadee.bpm.camunda.processcontext;
 
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import model.Archived;
-import model.Dokument;
+import model.DamageReport;
+import model.Document;
 import model.JsonDataType;
-import model.Schadenmeldung;
-import model.Vertrag;
+import model.Contract;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.variable.ClientValues;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -17,12 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static de.viadee.bpm.camunda.processcontext.VariableConstants.EXT_IN_SCHADENMELDUNG;
-import static de.viadee.bpm.camunda.processcontext.VariableConstants.EXT_IN_VERTRAG;
-import static de.viadee.bpm.camunda.processcontext.VariableConstants.EXT_OUT_SCHADEN_ID;
+import static de.viadee.bpm.camunda.processcontext.VariableConstants.EXT_IN_DAMAGE_REPORT;
+import static de.viadee.bpm.camunda.processcontext.VariableConstants.EXT_IN_CONTRACT;
+import static de.viadee.bpm.camunda.processcontext.VariableConstants.EXT_OUT_CLAIM_ID;
 import static de.viadee.bpm.camunda.processcontext.VariableConstants.INT_ARCHIVED;
 import static de.viadee.bpm.camunda.processcontext.VariableConstants.TEC_ITERATION_ELEMENT;
 import static java.util.Objects.isNull;
+import static model.JsonDataType.fromList;
+import static model.JsonDataType.toJsonList;
 
 public class ProcessContext {
 
@@ -54,26 +56,27 @@ public class ProcessContext {
     type = ContextType.ZEEBE;
   }
 
-  public Map<String, Object> addArchivDokument(final Archived archived) {
+  public Map<String, Object> addArchivedDocument(final Archived archived) {
     switch (type) {
       case DELEGATE:
         if (isNull(variableScope.getVariable(INT_ARCHIVED))) {
-          variableScope.setVariable(INT_ARCHIVED, JsonDataType.toJsonList(new ArrayList<>(List.of(archived))));
+          variableScope.setVariable(INT_ARCHIVED, toJsonList(new ArrayList<>(List.of(archived))));
+
         } else {
-          var archivedList = JsonDataType.fromList((List<String>) variableScope.getVariable(INT_ARCHIVED), Archived.class);
+          var archivedList = fromList((List<String>) variableScope.getVariable(INT_ARCHIVED), Archived.class);
           archivedList.add(archived);
-          variableScope.setVariable(INT_ARCHIVED, JsonDataType.toJsonList(archivedList));
+          variableScope.setVariable(INT_ARCHIVED, toJsonList(archivedList));
         }
-        return null;
+        return null; // compatible with handler and job
 
         case EXTERNAL:
         if (isNull(variableMap.getValue(INT_ARCHIVED, List.class))) {
-          return Map.of(INT_ARCHIVED, JsonDataType.toJsonList(new ArrayList<>(List.of(archived))));
+          return Map.of(INT_ARCHIVED, toJsonList(new ArrayList<>(List.of(archived))));
 
         } else {
-          var archivedList = JsonDataType.fromList(variableMap.getValue(INT_ARCHIVED, List.class), Archived.class);
+          var archivedList = fromList(variableMap.getValue(INT_ARCHIVED, List.class), Archived.class);
           archivedList.add(archived);
-          return Map.of(INT_ARCHIVED, JsonDataType.toJsonList(archivedList));
+          return Map.of(INT_ARCHIVED, toJsonList(archivedList));
         }
 
       case ZEEBE:
@@ -82,63 +85,63 @@ public class ProcessContext {
     return null;
   }
 
-  public Schadenmeldung getSchadenmeldung() {
+  public DamageReport getDamageReport() {
     switch (type) {
       case DELEGATE:
-        return JsonDataType.from(String.valueOf(variableScope.getVariable(EXT_IN_SCHADENMELDUNG)), Schadenmeldung.class);
+        return JsonDataType.from(String.valueOf(variableScope.getVariable(EXT_IN_DAMAGE_REPORT)), DamageReport.class);
       case EXTERNAL:
-        return JsonDataType.from(variableMap.getValue(EXT_IN_SCHADENMELDUNG, String.class), Schadenmeldung.class);
+        return JsonDataType.from(variableMap.getValue(EXT_IN_DAMAGE_REPORT, String.class), DamageReport.class);
       case ZEEBE:
-        return JsonDataType.from(activatedJob.getVariablesAsMap().get(EXT_IN_SCHADENMELDUNG), Schadenmeldung.class);
+        return JsonDataType.from(activatedJob.getVariablesAsMap().get(EXT_IN_DAMAGE_REPORT), DamageReport.class);
     }
     return null;
   }
 
-  public Vertrag getVertrag() {
+  public Contract getContract() {
     switch (type) {
       case DELEGATE:
-        return JsonDataType.from(String.valueOf(variableScope.getVariable(EXT_IN_VERTRAG)), Vertrag.class);
+        return JsonDataType.from(String.valueOf(variableScope.getVariable(EXT_IN_CONTRACT)), Contract.class);
       case EXTERNAL:
-        return JsonDataType.from(variableMap.getValue(EXT_IN_VERTRAG, String.class), Vertrag.class);
+        return JsonDataType.from(variableMap.getValue(EXT_IN_CONTRACT, String.class), Contract.class);
       case ZEEBE:
-        return JsonDataType.from(activatedJob.getVariablesAsMap().get(EXT_IN_VERTRAG), Vertrag.class);
+        return JsonDataType.from(activatedJob.getVariablesAsMap().get(EXT_IN_CONTRACT), Contract.class);
     }
     return null;
   }
 
-  public Dokument getDokument() {
+  public Document getDocument() {
     switch (type) {
       case DELEGATE:
-        return JsonDataType.from(String.valueOf(variableScope.getVariable(TEC_ITERATION_ELEMENT)), Dokument.class);
+        return JsonDataType.from(String.valueOf(variableScope.getVariable(TEC_ITERATION_ELEMENT)), Document.class);
       case EXTERNAL:
-        return JsonDataType.from(variableMap.getValue(TEC_ITERATION_ELEMENT, String.class), Dokument.class);
+        return JsonDataType.from(variableMap.getValue(TEC_ITERATION_ELEMENT, String.class), Document.class);
       case ZEEBE:
-        return JsonDataType.from(activatedJob.getVariablesAsMap().get(TEC_ITERATION_ELEMENT), Dokument.class);
+        return JsonDataType.from(activatedJob.getVariablesAsMap().get(TEC_ITERATION_ELEMENT), Document.class);
     }
     return null;
   }
 
-  public Map<String, Object> setVertrag(final Vertrag vertrag) {
+  public Map<String, Object> setContract(final Contract contract) {
     switch (type) {
       case DELEGATE:
-        variableScope.setVariable(EXT_IN_VERTRAG, SpinValues.jsonValue(vertrag.toJsonString()));
-        return variableScope.getVariables();
+        variableScope.setVariable(EXT_IN_CONTRACT, SpinValues.jsonValue(contract.toJsonString()));
+        return variableScope.getVariables(); // compatible with handler and job
       case EXTERNAL:
-        return ClientValues.createVariables().putValue(EXT_IN_VERTRAG, vertrag.toJson());
+        return ClientValues.createVariables().putValue(EXT_IN_CONTRACT, contract.toJson());
       case ZEEBE:
-        return Map.of(EXT_IN_VERTRAG, vertrag);
+        return Map.of(EXT_IN_CONTRACT, contract);
     }
     return null;
   }
 
-  public Map<String, Object> setSchadenId(final String schadenId) {
+  public Map<String, Object> setClaimId(final String claimId) {
     switch (type) {
       case DELEGATE:
-        variableScope.setVariable(EXT_OUT_SCHADEN_ID, schadenId);
-        return variableScope.getVariables();
+        variableScope.setVariable(EXT_OUT_CLAIM_ID, claimId);
+        return variableScope.getVariables(); // compatible with handler and job
       case EXTERNAL:
       case ZEEBE:
-        return Map.of(EXT_OUT_SCHADEN_ID, schadenId);
+        return Map.of(EXT_OUT_CLAIM_ID, claimId);
     }
     return null;
   }

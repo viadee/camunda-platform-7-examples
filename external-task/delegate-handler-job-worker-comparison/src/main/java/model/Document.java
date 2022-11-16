@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Dokument implements JsonDataType {
+public class Document implements JsonDataType {
 
   private String id;
   private String content;
