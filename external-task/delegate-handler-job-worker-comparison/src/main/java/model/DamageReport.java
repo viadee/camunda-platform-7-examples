@@ -8,11 +8,11 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class Schadenmeldung implements JsonDataType {
+public class DamageReport implements JsonDataType {
 
-  private Schaden schaden;
+  private DamageData damageData;
   private String vsnr;
-  private String eingangskanal;
-  private List<Dokument> dokumente = new ArrayList<>();
+  private String inputChannel;
+  private List<Document> documents = new ArrayList<>();
 
 }

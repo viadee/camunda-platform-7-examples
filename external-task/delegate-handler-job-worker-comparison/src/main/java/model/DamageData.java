@@ -8,11 +8,11 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-public class Schaden {
+public class DamageData {
 
   private BigDecimal value;
-  private String typ;
-  private LocalDate schadenDatum;
-  private String beschreibung;
+  private String type;
+  private LocalDate damageDate;
+  private String description;
 
 }
