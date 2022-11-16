@@ -126,7 +126,7 @@ the global list of results in each execution, and will fetch already the updated
 
 Fortunately, Camunda 8 supports handling of local results from sub-processes natively,
 i.e. it is possible to join local result-variables into a list of objects without struggling with `OptimisticLocking` or
-overwriting any previously stored result. Therefore, the respective process-model is configured in the following way:
+overwriting any previously stored result. Therefore, the respective process-model is configured in the following way:  
 ![c8-multi-instance-configuration](docs/c8-multi-instance-configuration.png)
 
 * Input collection: The collection used for the multi-instance
