@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=de.viadee.bpm.camunda.history.CustomHistoryLevelsAutoConfiguration
