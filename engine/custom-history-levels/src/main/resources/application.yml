@@ -1,0 +1,23 @@
+de.viadee.bpm.camunda:
+  history:
+    exclusion-prefix: 'foo_'
+    excluded-variables:
+      - 'no-history'
+camunda.bpm:
+  history-level: full-with-variable-exclusion
+  database.type: h2
+  default-serialization-format: application/json
+  generic-properties:
+    properties:
+      initializeTelemetry: true
+      telemetryReporterActivate: true
+  login:
+    enabled: true
+    user-id: demo
+    create-if-absent: true
+    random-password: true
+logging:
+  pattern.console: '%d{yyyy-MM-dd HH:mm:ss.SSS}: %m%n'
+  level:
+    root: error
+    custom-history-level-demo: info
