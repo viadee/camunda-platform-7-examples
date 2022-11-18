@@ -22,7 +22,8 @@
 		<!-- versions -->
 		<version.java>11</version.java>
 		<version.spring-boot>2.7.5</version.spring-boot>
-		<version.camunda>7.18.0-ee</version.camunda>
+		<version.camunda>7.18.0</version.camunda>
+		<!-- <version.camunda>7.18.0-ee</version.camunda> -->
 		<version.maven-compiler-plugin>3.10.1</version.maven-compiler-plugin>
 		<version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
 		<version.camunda-autologin>0.0.1</version.camunda-autologin>
@@ -54,7 +55,8 @@
 
 		<dependency>
 			<groupId>org.camunda.bpm.springboot</groupId>
-			<artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
+			<artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+			<!-- <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId> -->
 		</dependency>
 
 
