@@ -3,7 +3,7 @@
 This example show how to implement a custom history-level to exclude certain variables from being historized by Camunda.
 
 ## How to start
-* Simply start the `ProcessApplication` and follow anything in the log, of may use the debugger.
+* Simply start the `ProcessApplication` and follow anything in the log, or may use the debugger.
 * You can use the Enterprise-Edition (-ee) in order to have a look at historic variables using Camunda Cockpit
 
 ## How it works
@@ -26,7 +26,7 @@ camunda.bpm:
 The custom history level is implemented by [HistoryLevelFullWithVariableExclusion.java](src/main/java/de/viadee/bpm/camunda/history/HistoryLevelFullWithVariableExclusion.java). 
 The method `@Override method` `isHistoryEventProduced(..)` finally checks, if a history-event should be produced or not.
 
-# How it looks
+## How it looks
 
 After the application has started, a process-instance is also started automatically. There are 3 parallel process-flows, 
 that separately write different variables: `no-history`, `with-history`, and `foo_bar`.  
