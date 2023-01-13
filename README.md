@@ -9,6 +9,7 @@ This is a collection of examples and code-snippets for Camunda Platform 7
 |:-------------------------------------------------------------------------------------------------------------|:--------------|
 | [Cockpit with configurable(!) custom branding](cockpit/custom-branding)                                      | Cockpit       |
 | [Custom History Levels](engine/custom-history-levels)                                                        | Engine        |
+| [Incident Notification Plugin](engine/incident-notification-plugin)                                          | Engine        |
 | [Comparison: Delegate / Handler / (Zeebe-) Worker](external-task/delegate-handler-job-worker-comparison)     | External-Task |
 | [External-Task-Handler (de-)serializing objects as json](external-task/external-task-handler-json-variables) | External-Task |
 | [Rest-Api-Client using Open-Api-Spec](rest-api/open-api-client)                                              | Rest-Api      |
