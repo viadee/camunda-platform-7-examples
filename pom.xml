@@ -17,4 +17,29 @@
         <module>rest-api/open-api-client</module>
     </modules>
 
+
+    <properties>
+        <version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
+    </properties>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>ch.acanda.maven</groupId>
+                <artifactId>spring-banner-plugin</artifactId>
+                <version>${version.spring-banner-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>generate-spring-banner</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
