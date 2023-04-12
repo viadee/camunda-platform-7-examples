@@ -21,9 +21,9 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- versions -->
-        <version.java>11</version.java>
+        <version.java>17</version.java>
         <version.spring-boot>2.7.10</version.spring-boot>
-        <version.camunda>7.19.0</version.camunda>
+        <version.camunda>7.19.0-ee</version.camunda>
         <version.maven-compiler-plugin>3.10.1</version.maven-compiler-plugin>
         <version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
 
@@ -55,7 +55,7 @@
 
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
-            <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+            <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
         </dependency>
 
         <dependency>
