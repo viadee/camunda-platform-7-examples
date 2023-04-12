@@ -24,7 +24,7 @@
 		<version.spring-boot>2.7.10</version.spring-boot>
 		<version.camunda>7.19.0-ee</version.camunda>
 		<!-- <version.camunda>7.19.0-ee</version.camunda> -->
-		<version.maven-compiler-plugin>3.10.1</version.maven-compiler-plugin>
+		<version.maven-compiler-plugin>3.11.0</version.maven-compiler-plugin>
 		<version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
 		<version.camunda-autologin>0.0.1</version.camunda-autologin>
 
