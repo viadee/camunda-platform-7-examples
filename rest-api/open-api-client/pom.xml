@@ -24,12 +24,12 @@
         <version.java>17</version.java>
         <version.spring-boot>2.7.10</version.spring-boot>
         <version.camunda>7.19.0</version.camunda>
-        <version.maven-compiler-plugin>3.10.1</version.maven-compiler-plugin>
+        <version.maven-compiler-plugin>3.11.0</version.maven-compiler-plugin>
         <version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
-        <version.openapi-generator>5.1.0</version.openapi-generator>
-        <version.swagger-annotations>1.6.6</version.swagger-annotations>
-        <version.jackson-databind-nullable>0.2.2</version.jackson-databind-nullable>
-        <version.findbugs.jsr305>1.3.7</version.findbugs.jsr305>
+        <version.openapi-generator>6.5.0</version.openapi-generator>
+        <version.swagger-annotations>2.2.8</version.swagger-annotations>
+        <version.jackson-databind-nullable>0.2.6</version.jackson-databind-nullable>
+        <version.google-findbugs-jsr305>3.0.2</version.google-findbugs-jsr305>
 
         <version.jackson-datatype-jsr310>2.13.3</version.jackson-datatype-jsr310>
     </properties>
@@ -81,7 +81,7 @@
 
         <!-- dependencies, tools, and workarounds for api-usage -->
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${version.swagger-annotations}</version>
         </dependency>
@@ -91,9 +91,9 @@
             <version>${version.jackson-databind-nullable}</version>
         </dependency>
         <dependency>
-            <groupId>net.sourceforge.findbugs</groupId>
+            <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>${version.findbugs.jsr305}</version>
+            <version>${version.google-findbugs-jsr305}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

@@ -26,10 +26,10 @@
         <!-- <version.camunda>7.19.0-ee</version.camunda> -->
         <version.camunda>7.19.0</version.camunda>
         <version.spring-zeebe-starter>8.1.2</version.spring-zeebe-starter>
-        <version.jackson-datatype-jsr310>2.14.0</version.jackson-datatype-jsr310>
+        <version.jackson-datatype-jsr310>2.14.2</version.jackson-datatype-jsr310>
         <version.camunda-autologin>0.0.1</version.camunda-autologin>
-        <version.lombok>1.18.24</version.lombok>
-        <version.maven-compiler-plugin>3.10.1</version.maven-compiler-plugin>
+        <version.lombok>1.18.26</version.lombok>
+        <version.maven-compiler-plugin>3.11.0</version.maven-compiler-plugin>
         <version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
 
     </properties>
