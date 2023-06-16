@@ -1,9 +1,6 @@
 camunda.bpm:
   client:
     base-url: http://localhost:8080/engine-rest
-  admin-user:
-    id: demo
-    password: demo
   database:
     type: h2
   default-serialization-format: application/json
@@ -13,3 +10,11 @@ camunda.bpm:
     properties:
       initializeTelemetry: true
       telemetryReporterActivate: true
+  login:
+    enabled: false
+    user-id: demo
+    create-if-absent: true
+    random-password: true
+  admin-user:
+    id: demo
+    password: demo

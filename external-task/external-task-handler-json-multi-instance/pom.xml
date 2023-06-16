@@ -21,11 +21,11 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
         <!-- versions -->
-        <version.java>11</version.java>
-        <version.spring-boot>2.6.7</version.spring-boot>
-        <version.camunda>7.17.0-ee</version.camunda>
-        <version.maven-compiler-plugin>3.8.0</version.maven-compiler-plugin>
-        <version.spring-banner-plugin>1.0</version.spring-banner-plugin>
+        <version.java>17</version.java>
+        <version.spring-boot>2.7.10</version.spring-boot>
+        <version.camunda>7.19.0</version.camunda>
+        <version.maven-compiler-plugin>3.11.0</version.maven-compiler-plugin>
+        <version.spring-banner-plugin>1.5.2</version.spring-banner-plugin>
 
     </properties>
 
@@ -54,13 +54,19 @@
     <dependencies>
 
         <dependency>
+            <groupId>io.holunda</groupId>
+            <artifactId>camunda-platform-7-autologin</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
-            <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
+            <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
         </dependency>
 
         <dependency>

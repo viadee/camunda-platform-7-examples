@@ -1,24 +1,20 @@
 package de.viadee.bpm.camunda.externaltask.worker;
 
-import de.viadee.bpm.camunda.model.JsonDataType;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import de.viadee.bpm.camunda.model.Person;
 import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
 import org.camunda.bpm.client.variable.ClientValues;
-import org.camunda.bpm.client.variable.value.JsonValue;
-import org.camunda.spin.Spin;
-import org.camunda.spin.json.SpinJsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
-import static org.camunda.spin.Spin.JSON;
+import static org.camunda.bpm.client.variable.ClientValues.jsonValue;
 
 @Component
 @ExternalTaskSubscription(topicName = "write-json-value-list")
@@ -34,48 +30,18 @@ public class WriteJsonValueListHandler implements ExternalTaskHandler {
             new Person("Eve", "You know nothing!"),
             new Person("Bob", ""));
 
-        Spin.JSON( new Person("Alice", "Hallo world!")).toString();
-
-        var jsonValues = persons.stream()
-                                .map(Spin::JSON)
-                                .map(SpinJsonNode::toString)
-                                .map(ClientValues::jsonValue)
-                                .collect(Collectors.toList());
-
-
-        log.info("Data serialized: {}", jsonValues);
-
         log.info("Complete task\n");
         taskService.complete(task, ClientValues.createVariables()
-                                               .putValue("Alice", persons.get(0))
-                                               .putValue("Alice-Json", jsonValues.get(0))
-                                               .putValue("persons", new ArrayList<>(jsonValues)));
+                                               .putValue("persons", jsonValue(writeAsString(persons))));
     }
 
-    static class Person {
-
-        String name;
-        String favouriteQuote;
-
-        public Person(final String name, final String favouriteQuote) {
-            this.name = name;
-            this.favouriteQuote = favouriteQuote;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(final String name) {
-            this.name = name;
-        }
-
-        public String getFavouriteQuote() {
-            return favouriteQuote;
-        }
-
-        public void setFavouriteQuote(final String favouriteQuote) {
-            this.favouriteQuote = favouriteQuote;
+    public static  <T> String writeAsString(final T data) {
+        try {
+            return new JsonMapper().writeValueAsString(data);
+        } catch (JsonProcessingException e) {
+            log.warn("Error while writing data as json: {}", e.getMessage(), e);
+            return "{\"error\":\"" + e.getMessage() + "\"}";
         }
     }
+
 }
